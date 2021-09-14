@@ -7,8 +7,12 @@
 
 *More Pictures coming soon...*
 
-- [x] ``!nova {option: status, players}`` command.
-- [ ] ``!player {player_ign} {game: optinal}`` command.
+- [] ``!boo`` command.
+- [] ``!treat`` command.
+- [] ``!spooky`` command.
+- [] ``!story`` command.
+
+
 
 ## What is it?
 It's a cog that overides the shop and ecomany (currency) in order to bring a Halloween themed shop and replace the currency to "candy". *Currrently in development as of now...*
