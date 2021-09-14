@@ -7,10 +7,10 @@
 
 *More Pictures coming soon...*
 
-- [] ``!boo`` command.
-- [] ``!treat`` command.
-- [] ``!spooky`` command.
-- [] ``!story`` command.
+- [ ] ``!boo`` command.
+- [ ] ``!treat`` command.
+- [ ] ``!spooky`` command.
+- [ ] ``!story`` command.
 
 
 
