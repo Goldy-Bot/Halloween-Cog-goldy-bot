@@ -1,5 +1,5 @@
 # Halloween Cog *([for Goldy Bot](https://github.com/TGP-Projects/Goldy-Bot-V3))*
-<img align="left" src="https://media.discordapp.net/attachments/700711241840066590/887415118353289237/unknown.png" width="460">
+<img align="left" src="https://media.discordapp.net/attachments/700711241840066590/887415118353289237/unknown.png" width="420">
 <p align="right">
  <img src="https://media.discordapp.net/attachments/700711241840066590/887431202020143205/unknown.png?width=556&height=676" width="416">
 </p>
