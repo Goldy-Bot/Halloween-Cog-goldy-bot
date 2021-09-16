@@ -62,7 +62,7 @@ class halloween(commands.Cog):
     @boo.error
     async def command_error(self, ctx, error):
         if isinstance(error, commands.CommandOnCooldown):
-            await ctx.author.send(goldy_msg.error.cooldown.format(datetime.timedelta(seconds=round(error.retry_after))))
+            await ctx.author.send(msg.boo.error.cooldown.format(datetime.timedelta(seconds=round(error.retry_after))))
         else:
             await goldy.log_error(ctx, self.client, error, "halloween.boo")
 
