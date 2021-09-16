@@ -21,9 +21,9 @@
 - [ ] ``!treat`` command.
 - [ ] ``!spooky`` command.
 - [ ] ``!story`` command.
-- [ ] ``skeleton`` command.
-- [ ] ``bats {member}`` comamnd.
-- [ ] ``cram {candy amount}`` command.
+- [ ] ``!skeleton`` command.
+- [ ] ``!bats {member}`` comamnd.
+- [ ] ``!cram {candy amount}`` command.
 
 
 
