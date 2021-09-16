@@ -59,10 +59,16 @@ class candy(commands.Cog):
 
         @staticmethod
         async def add(ctx, client, amount): #Adds currency to member.
-            database = client.get_cog('database')
+            from cogs.database import database
             member_data = await database.member.pull(ctx) #Pull member data.
 
-            member_candy = member_data.candy
+            try:
+                member_candy = member_data.candy
+
+            except AttributeError:
+                await database.member.add_object(ctx, "candy", 0)
+                member_candy = 0
+
             new_candy_bal = member_candy + amount
             member_data.candy = new_candy_bal
 
@@ -76,7 +82,11 @@ class candy(commands.Cog):
             database = client.get_cog('database')
             member_data = await database.member.pull(ctx) #Pull member data.
 
-            member_candy = member_data.candy
+            try:
+                member_candy = member_data.candy
+            except AttributeError:
+                member_candy = 0
+
             new_candy_bal = member_candy - amount
 
             if new_candy_bal < -1:
