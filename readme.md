@@ -17,7 +17,7 @@
 
 *More Pictures coming soon...*
 
-- [ ] ``!boo`` command.
+- [x] ``!boo`` command.
 - [ ] ``!treat`` command.
 - [ ] ``!spooky`` command.
 - [ ] ``!story`` command.
