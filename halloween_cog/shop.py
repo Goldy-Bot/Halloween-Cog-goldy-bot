@@ -15,7 +15,7 @@ cog_name = "shop"
 
 max_pages = 2
 
-class shop(commands.Cog):
+class shop(commands.Cog, name="🛒Shop"):
     def __init__(self, client):
         self.client = client
 

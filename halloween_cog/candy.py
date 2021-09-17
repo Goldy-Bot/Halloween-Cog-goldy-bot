@@ -12,7 +12,7 @@ from . import msg
 
 cog_name = "candy"
 
-class candy(commands.Cog):
+class candy(commands.Cog, name="🍬Candy"):
     def __init__(self, client):
         self.client = client
 

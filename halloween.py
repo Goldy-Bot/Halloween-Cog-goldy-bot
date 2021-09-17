@@ -20,7 +20,7 @@ from cogs.halloween_cog.candy import candy
 #Change 'your_cog' to the name you wish to call your cog. ('your_cog' is just a placeholder.)
 cog_name = "halloween"
 
-class halloween(commands.Cog):
+class halloween(commands.Cog, name="🎃Halloween Extn"):
     def __init__(self, client):
         self.client = client
 
