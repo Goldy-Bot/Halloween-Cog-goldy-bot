@@ -23,6 +23,8 @@ cog_name = "halloween"
 class halloween(commands.Cog, name="🎃Halloween Extn"):
     def __init__(self, client):
         self.client = client
+        self.cog_name = cog_name
+        self.help_command_index = 1
 
         #Unload cogs that halloween cog will override.
         settings.ignore_cogs.append(["shop", "economy"])

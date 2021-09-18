@@ -18,6 +18,8 @@ max_pages = 2
 class shop(commands.Cog, name="🛒Shop"):
     def __init__(self, client):
         self.client = client
+        self.cog_name = cog_name
+        self.help_command_index = 3
 
     #Main shop command.
     @commands.command()

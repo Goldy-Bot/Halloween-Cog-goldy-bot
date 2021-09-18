@@ -15,6 +15,8 @@ cog_name = "candy"
 class candy(commands.Cog, name="🍬Candy"):
     def __init__(self, client):
         self.client = client
+        self.cog_name = cog_name
+        self.help_command_index = 8
 
     @commands.command(aliases=['balence', 'bank', 'candy'])
     @commands.cooldown(1, 3, commands.BucketType.user)
