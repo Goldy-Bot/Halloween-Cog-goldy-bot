@@ -7,7 +7,7 @@ import traceback
 
 from goldy_func import *
 from goldy_utility import *
-import config.msg as msg
+import utility.msg as msg
 
 from . import msg as hallo_msg
 

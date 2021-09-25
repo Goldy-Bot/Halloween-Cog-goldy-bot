@@ -6,7 +6,7 @@ import datetime
 
 from goldy_func import *
 from goldy_utility import *
-from config import msg as goldy_msg
+from utility import msg as goldy_msg
 
 #Importing extenstion pack.
 import cogs.halloween_cog.msg as msg
@@ -34,7 +34,7 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
         goldy.cogs.load(self.client, "cogs.halloween_cog.shop")
 
     @commands.cooldown(1, 30, commands.BucketType.user)
-    @commands.command(description="Has a 50% chance of being a jumpscare or giving you some candy.")
+    @commands.command(description="Has a 42% chance of being a jumpscare and a 57% chance of giving you some candy.")
     async def boo(self, ctx):
         if await can_the_command_run(ctx, cog_name) == True:
             random_num = random.randint(1, 7)
@@ -68,7 +68,7 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
         else:
             await goldy.log_error(ctx, self.client, error, "halloween.boo")
 
-    @commands.command(aliases=["trick-or-treat", "trick"])
+    @commands.command(aliases=["trick-or-treat", "trick"], description="A command for gaining candy with a 10% chance of getting tricked and losing X amount.")
     async def treat(self, ctx):
         if await can_the_command_run(ctx, cog_name) == True:
             pass
@@ -78,7 +78,7 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
         if await can_the_command_run(ctx, cog_name) == True:
             pass
 
-    @commands.command(aliases=["scary"])
+    @commands.command(aliases=["scary"], description="Desolves 1 candy and gives you a horro story.")
     async def story(self, ctx):
         if await can_the_command_run(ctx, cog_name) == True:
             pass

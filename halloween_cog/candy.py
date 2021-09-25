@@ -5,7 +5,7 @@ import datetime
 
 from goldy_func import *
 from goldy_utility import *
-import config.msg as goldy_msg
+import utility.msg as goldy_msg
 
 #Importing utilits
 from . import msg
