@@ -4,8 +4,8 @@ import asyncio
 import random
 import datetime
 
-from goldy_func import *
-from goldy_utility import *
+from src.goldy_func import *
+from src.goldy_utility import *
 from utility import msg as goldy_msg
 
 #Importing extenstion pack.
@@ -25,9 +25,10 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
         self.client = client
         self.cog_name = cog_name
         self.help_command_index = 1
-
+        
         #Unload cogs that halloween cog will override.
-        settings.ignore_cogs.append(["shop", "economy"])
+        import config.config as config
+        config.ignore_cogs.append(["shop", "economy"])
 
         #Loading halloween's extentions.
         goldy.cogs.load(self.client, "cogs.halloween_cog.candy")

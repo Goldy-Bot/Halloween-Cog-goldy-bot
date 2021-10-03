@@ -3,8 +3,8 @@ from nextcord.ext import commands
 import asyncio
 import datetime
 
-from goldy_func import *
-from goldy_utility import *
+from src.goldy_func import *
+from src.goldy_utility import *
 import utility.msg as goldy_msg
 
 #Importing utilits
