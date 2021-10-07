@@ -11,7 +11,7 @@
 <br clear="left"/>
 
 <img align="left" src="https://user-images.githubusercontent.com/66202304/136390371-7c28c674-bc35-4142-81d2-acb6de8a7e88.PNG" width="420">
-<img align="right" src="https://media.discordapp.net/attachments/700711241840066590/887415118353289237/unknown.png" width="400">
+<img align="right" src="https://media.discordapp.net/attachments/700711241840066590/887415118353289237/unknown.png" width="380">
 
 <br clear="left"/>
 <br clear="left"/>
