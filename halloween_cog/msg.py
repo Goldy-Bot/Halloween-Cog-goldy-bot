@@ -36,6 +36,9 @@ class treat():
         **Candy Given: {}**``{}``
         '''
 
+class scary():
+    you_sure = "**{}, are you sure? There's some real creepy stuff here.**"
+
 class bal():
     class embed():
         main_context = """

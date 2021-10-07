@@ -70,7 +70,7 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
         if isinstance(error, commands.CommandOnCooldown):
             await ctx.author.send(msg.boo.error.cooldown.format(datetime.timedelta(seconds=round(error.retry_after))))
         else:
-            await goldy.log_error(ctx, self.client, error, "halloween.boo")
+            await goldy.log_error(ctx, self.client, error, f"{cog_name}.boo")
 
     @commands.command(aliases=["trick-or-treat", "trick"], description="A command for gaining candy with a 10% chance of getting tricked and losing X amount.")
     async def treat(self, ctx):
@@ -110,10 +110,21 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
                 embed.set_thumbnail(url=msg.treat.embed.candy_kid_gif)
                 await ctx.send(embed=embed)
 
-    @commands.command(description="Sends you a random spooky image.")
+    @treat.error
+    async def command_error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.author.send(msg.boo.error.cooldown.format(datetime.timedelta(seconds=round(error.retry_after))))
+        else:
+            await goldy.log_error(ctx, self.client, error, f"{cog_name}.treat")
+
+    @commands.command(aliases=["creepy"], description="Sends you a random spooky image for free.")
     async def spooky(self, ctx):
         if await can_the_command_run(ctx, cog_name) == True:
-            pass
+            url = await gif.random(ctx, self.client, "creepy", (5, 30))
+            embed = nextcord.Embed(title="🕯️ Creeeepy...", description="*idk, what to put in this description*", colour=settings.WHITE)
+            embed.set_image(url=url)
+            embed.set_footer(text=msg.embed.footer_1)
+            await ctx.send(embed=embed)
 
     @commands.command(aliases=["scary"], description="Desolves 1 candy and gives you a horro story.")
     async def story(self, ctx):
@@ -140,6 +151,25 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
         async def create(description="Happy Halloween!"):
             embed=nextcord.Embed(title="**__🎃Halloween (2021)__**", description=description, color=settings.AKI_ORANGE)
             return embed
+
+class buttons():
+    class yes_no(nextcord.ui.View):
+        def __init__(self, ctx):
+            super().__init__()
+            self.ctx = ctx
+            self.value = None
+
+        @nextcord.ui.button(label="💚Yes", style=nextcord.ButtonStyle.green)
+        async def yes(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
+            if interaction.user == self.ctx.author:
+                self.value = True
+                self.stop()
+
+        @nextcord.ui.button(label="❤️No", style=nextcord.ButtonStyle.red)
+        async def no(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
+            if interaction.user == self.ctx.author:
+                self.value = False
+                self.stop()
 
 def setup(client):
     client.add_cog(halloween(client))
