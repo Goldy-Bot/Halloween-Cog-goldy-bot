@@ -20,7 +20,7 @@
 *More Pictures coming soon...*
 
 - [x] ``!boo`` command.
-- [ ] ``!treat`` command.
+- [x] ``!treat`` command.
 - [ ] ``!spooky`` command.
 - [ ] ``!story`` command.
 - [ ] ``!skeleton`` command.
