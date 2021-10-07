@@ -16,12 +16,16 @@
 <br clear="left"/>
 <br clear="left"/>
 
+<img align="right" src="https://user-images.githubusercontent.com/66202304/136395701-6456a77e-8d8a-462f-831c-456235b95fbb.PNG" width="410">
+
+<br clear="left"/>
+<br clear="left"/>
 
 *More Pictures coming soon...*
 
 - [x] ``!boo`` command.
 - [x] ``!treat`` command.
-- [ ] ``!spooky`` command.
+- [x] ``!spooky`` command.
 - [ ] ``!story`` command.
 - [ ] ``!skeleton`` command.
 - [ ] ``!bats {member}`` comamnd.
