@@ -10,6 +10,7 @@ from src.goldy_utility import *
 import utility.msg as msg
 
 from . import msg as hallo_msg
+from .candy import candy as economy
 
 from cogs.database import database
 from cogs.shop import shop as core_shop
@@ -208,8 +209,6 @@ class shop(commands.Cog, name="🛒Shop"):
         async def buy(ctx, client, item_data): #This buy function handels purchusing the item and sending Purchased embeded.
             item = await core_shop.items.get_name(ctx, item_data)
 
-            economy = client.get_cog('candy')
-
             #Check if member has item.
             has_item = await database.member.checks.has_item(ctx, item_data.names.code_name)
             if has_item == True:
@@ -268,9 +267,6 @@ class shop(commands.Cog, name="🛒Shop"):
         @staticmethod
         async def sell(ctx, client, item_data):
             item = await core_shop.items.get_name(ctx, item_data) #Replace this with 'shop.item.get_name' when done with coding it OR ELSE BUYING ROLES WON'T WORK!
-
-            economy = client.get_cog('candy')
-            database = client.get_cog('database')
 
             #Check if member has item.
             has_item = await database.member.checks.has_item(ctx, item_data.names.code_name)

@@ -39,6 +39,18 @@ class treat():
 class scary():
     you_sure = "**{}, are you sure? There's some real creepy stuff here.**"
 
+class battable():
+    their_not_battable = "**💛 {}, their not 🦇battable!**"
+    toggle_on = "**💚 {}, member's are now able to sent you 🦇bats.**"
+    toggle_off = "**💛 {}, no one can send you 🦇bats now. Good choice, this is the safer option.**"
+
+    your_not_battable = "**💙 {}, don't worry you aren't 🦇battable. *If for some reason you want to allow members to send you 🦇bats, try this command --> ``!battable on``.***"
+    your_battable = "**💛 {}, yes you are in deed 🦇battable. *To stop members from sending you 🦇bats, try this command --> ``!battable off``.***"
+
+class bat():
+    class failed():
+        not_battable = battable.their_not_battable
+
 class bal():
     class embed():
         main_context = """

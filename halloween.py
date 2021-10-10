@@ -9,14 +9,18 @@ from src.goldy_func import *
 from src.goldy_utility import *
 from utility import msg as goldy_msg
 
-#Importing extenstion pack.
+from cogs.database import database
+
+#Importing extenstion packs.
 import cogs.halloween_cog.msg as msg
+from cogs.halloween_cog.candy import candy
+import cogs.halloween_cog.bats as bats
 
 #Importing other extentions.
 from cogs.giphy import giphy
 from cogs.giphy_cog.api import gif
 
-from cogs.halloween_cog.candy import candy
+
 
 #Change 'your_cog' to the name you wish to call your cog. ('your_cog' is just a placeholder.)
 cog_name = "halloween"
@@ -72,43 +76,47 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
         else:
             await goldy.log_error(ctx, self.client, error, f"{cog_name}.boo")
 
-    @commands.command(aliases=["trick-or-treat", "trick"], description="A command for gaining candy with a 10% chance of getting tricked and losing X amount.")
+    @commands.command(aliases=["trick-or-treat", "trick"], description="A command for gaining candy with a 30% chance of getting tricked and losing a lot of candy.")
     async def treat(self, ctx):
         if await can_the_command_run(ctx, cog_name) == True:
-            random_num = random.randint(1, 3)
+            if await database.member.checks.has_item(ctx, "!treat"):
+                random_num = random.randint(1, 3)
 
-            #Send knock, knock messages.
-            await ctx.send("*Knock, Knock*")
-            await asyncio.sleep(1)
-            await ctx.send("*Door Creaks Open...*")
-            await asyncio.sleep(0.5)
-            await ctx.send("***TRICK OR TREAT!***")
-            await asyncio.sleep(0.5)
-            
-            if random_num == 1: #Steal member's money.
-                amount = random.randint(4, 14)
-                await candy.member.subtract(ctx, self.client, amount)
-
-                embed = nextcord.Embed(title="🎃You've been 😈TR$CK%D!", 
-                description=msg.treat.embed.steal_context.format(ctx.author.mention, msg.candy_emoji, amount), 
-                colour=settings.RED)
-
-                embed.set_footer(text=msg.embed.footer_1)
-                embed.set_thumbnail(url=msg.treat.embed.steal_gif)
-                await ctx.send(embed=embed)
-            
-            else: #Give candy to the member.
-                amount = random.randint(6, 11)
-                await candy.member.add(ctx, self.client, amount)
+                #Send knock, knock messages.
+                await ctx.send("*Knock, Knock*")
+                await asyncio.sleep(1)
+                await ctx.send("*Door Creaks Open...*")
+                await asyncio.sleep(0.5)
+                await ctx.send("***TRICK OR TREAT!***")
+                await asyncio.sleep(0.5)
                 
-                description_message = ((msg.treat.embed.won_context).format(ctx.author.mention, msg.candy_emoji, amount))
-                embed = nextcord.Embed(title="🎃You've been 🤩TREATED!", 
-                description=(msg.treat.embed.won_context).format(ctx.author.mention, msg.candy_emoji, amount), 
-                colour=settings.AKI_ORANGE)
+                if random_num == 1: #Steal member's money.
+                    amount = random.randint(4, 14)
+                    await candy.member.subtract(ctx, self.client, amount)
 
-                embed.set_footer(text=msg.embed.footer_1)
-                embed.set_thumbnail(url=msg.treat.embed.candy_kid_gif)
-                await ctx.send(embed=embed)
+                    embed = nextcord.Embed(title="🎃You've been 😈TR$CK%D!", 
+                    description=msg.treat.embed.steal_context.format(ctx.author.mention, msg.candy_emoji, amount), 
+                    colour=settings.RED)
+
+                    embed.set_footer(text=msg.embed.footer_1)
+                    embed.set_thumbnail(url=msg.treat.embed.steal_gif)
+                    await ctx.send(embed=embed)
+                
+                else: #Give candy to the member.
+                    amount = random.randint(6, 11)
+                    await candy.member.add(ctx, self.client, amount)
+                    
+                    description_message = ((msg.treat.embed.won_context).format(ctx.author.mention, msg.candy_emoji, amount))
+                    embed = nextcord.Embed(title="🎃You've been 🤩TREATED!", 
+                    description=(msg.treat.embed.won_context).format(ctx.author.mention, msg.candy_emoji, amount), 
+                    colour=settings.AKI_ORANGE)
+
+                    embed.set_footer(text=msg.embed.footer_1)
+                    embed.set_thumbnail(url=msg.treat.embed.candy_kid_gif)
+                    await ctx.send(embed=embed)
+
+            else:
+                await ctx.send(goldy_msg.error.do_not_have_item.format(ctx.author.mention))
 
     @treat.error
     async def command_error(self, ctx, error):
@@ -117,29 +125,114 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
         else:
             await goldy.log_error(ctx, self.client, error, f"{cog_name}.treat")
 
-    @commands.command(aliases=["creepy"], description="Sends you a random spooky image for free.")
+    @commands.command(aliases=["creepy"], description="Sends you a random spooky image.")
     async def spooky(self, ctx):
         if await can_the_command_run(ctx, cog_name) == True:
-            url = await gif.random(ctx, self.client, "creepy", (5, 30))
-            embed = nextcord.Embed(title="🕯️ Creeeepy...", description="*idk, what to put in this description*", colour=settings.WHITE)
-            embed.set_image(url=url)
-            embed.set_footer(text=msg.embed.footer_1)
-            await ctx.send(embed=embed)
+            if await database.member.checks.has_item(ctx, "!spooky"):
+                url = await gif.random(ctx, self.client, "creepy", (5, 30))
+                embed = nextcord.Embed(title="🕯️ Creeeepy...", colour=settings.GREY)
+                embed.set_image(url=url)
+                embed.set_footer(text=msg.embed.footer_1)
+                await ctx.send(embed=embed)
+
+            else:
+                await ctx.send(goldy_msg.error.do_not_have_item.format(ctx.author.mention))
+
+    @spooky.error
+    async def command_error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.author.send(msg.boo.error.cooldown.format(datetime.timedelta(seconds=round(error.retry_after))))
+        else:
+            await goldy.log_error(ctx, self.client, error, f"{cog_name}.spooky")
 
     @commands.command(aliases=["scary"], description="Desolves 1 candy and gives you a horro story.")
     async def story(self, ctx):
         if await can_the_command_run(ctx, cog_name) == True:
             pass
 
-    @commands.command(aliases=["skele", "skull", "skeletons"])
+    @commands.command(aliases=["skele", "skull", "skeletons"], description="💀Sends skeletons.")
     async def skeleton(self, ctx):
         if await can_the_command_run(ctx, cog_name) == True:
-            pass
+            url = await gif.random(ctx, self.client, "anime skeleton", (2, 30))
+            embed = nextcord.Embed(title="💀", colour=settings.WHITE)
+            embed.set_image(url=url)
+            embed.set_footer(text=msg.embed.footer_1)
+            await ctx.send(embed=embed)
+            await ctx.send("**💀☠️**")
 
-    @commands.command()
-    async def bats(self, ctx):
+    @skeleton.error
+    async def command_error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.author.send(msg.boo.error.cooldown.format(datetime.timedelta(seconds=round(error.retry_after))))
+        else:
+            await goldy.log_error(ctx, self.client, error, f"{cog_name}.skeleton")
+
+    @commands.command(aliases=["bats"], description="Sends a bat to a member's dm.")
+    async def bat(self, ctx, member:nextcord.Member=None):
         if await can_the_command_run(ctx, cog_name) == True:
-            pass
+            if await database.member.checks.has_item(ctx, "!bat"):
+                if member == None:
+                    await ctx.send(goldy_msg.help.command_usage.format(ctx.author.mention, "!bat {member}"))
+                    ctx.command.reset_cooldown(ctx)
+                else:
+                    (ctx, member_ctx) = await goldy_methods.ctx_merger.merge(ctx, member)
+
+                    #Check if member mentioned is battable first.
+                    member_data = await database.member.pull(member_ctx)
+                    if await bats.member.checks.is_battable(ctx, member_data):
+                        #Get random image.
+                        random_image = await bats.random_bat_image.get()
+
+                        #Send embeds
+                        dm_embed = await bats.embed.create(member_ctx.author)
+
+                        dm_embed.set_image(url=random_image.url)
+                        await member_ctx.author.send(embed=dm_embed)
+
+                    else:
+                        await ctx.send(msg.bat.failed.not_battable.format(ctx.author.mention))
+                        ctx.command.reset_cooldown(ctx)
+            else:
+                await ctx.send(goldy_msg.error.do_not_have_item.format(ctx.author.mention))
+                ctx.command.reset_cooldown(ctx)
+
+    @bat.error
+    async def command_error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.author.send(msg.error.cooldown.format(datetime.timedelta(seconds=round(error.retry_after))))
+        else:
+            await goldy.log_error(ctx, self.client, error, f"{cog_name}.bat")
+
+    @commands.command(aliases=["batable"])
+    @commands.cooldown(1, 2, commands.BucketType.user)
+    async def battable(self, ctx, option=None):
+        if await can_the_command_run(ctx, cog_name) == True:
+            if not option == None:
+                is_done = await bats.member.toggle(ctx, option.lower())
+
+                if is_done[0] == True:
+                    if is_done[1] == "on":
+                        await ctx.send(msg.battable.toggle_on.format(ctx.author.mention))
+                    if is_done[1] == "off":
+                        await ctx.send(msg.battable.toggle_off.format(ctx.author.mention))
+
+                if is_done[0] == False:
+                    await ctx.send(msg.help.command_usage.format(ctx.author.mention, "!battable {on/off}"))
+                    
+            else:
+                member_data = await database.member.pull(ctx)
+
+                if await bats.member.checks.is_battable(ctx, member_data):
+                    await ctx.send(msg.battable.your_battable.format(ctx.author.mention))
+                else:
+                    await ctx.send(msg.battable.your_not_battable.format(ctx.author.mention))
+
+    @battable.error
+    async def command_error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.author.send(msg.error.cooldown.format(datetime.timedelta(seconds=round(error.retry_after))))
+        else:
+            await goldy.log_error(ctx, self.client, error, f"{cog_name}.battable")
 
     @commands.command()
     async def cram(self, ctx):
