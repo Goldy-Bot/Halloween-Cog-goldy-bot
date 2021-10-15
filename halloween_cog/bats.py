@@ -11,16 +11,18 @@ import cogs.giphy_cog.api as giphy_api
 
 from cogs.database import database
 
+import cogs.halloween_cog.msg as msg
+
 class member():
         class checks():
             @staticmethod
             async def is_battable(ctx, member_data): #Checks if member is battable or not.
                 battable = await member.get(ctx, member_data)
 
-                if battable == True:
-                    return True
-                else:
+                if battable == False:
                     return False
+                else:
+                    return True
 
         @staticmethod
         async def toggle(ctx, on_off:str): #Toggles battable on or off.
@@ -98,3 +100,11 @@ class embed():
         embed = nextcord.Embed(title="**🦇 Someone sent you a bat.**", colour=settings.AKI_ORANGE)
         embed.set_footer(text=f"Sent by {member_sent_by.name}", icon_url=member_sent_by.avatar.url)
         return embed
+
+    class sent():
+        @staticmethod
+        async def create(ctx):
+            embed = nextcord.Embed(title="**💚🦇 Bat Sent!**", description=(msg.bat.sent).format(ctx.author.mention), colour=settings.GREEN)
+            return embed
+
+    
