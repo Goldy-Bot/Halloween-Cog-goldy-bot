@@ -1,9 +1,12 @@
+from logging import disable
 import nextcord
 from nextcord.ext import commands
 import asyncio
 import random
 import datetime
+import time
 import importlib
+import numpy as np
 
 from src.goldy_func import *
 from src.goldy_utility import *
@@ -75,12 +78,13 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
             await ctx.author.send(msg.boo.error.cooldown.format(datetime.timedelta(seconds=round(error.retry_after))))
         else:
             await goldy.log_error(ctx, self.client, error, f"{cog_name}.boo")
-
+    
+    @commands.cooldown(1, 60, commands.BucketType.user)
     @commands.command(aliases=["trick-or-treat", "trick"], description="A command for gaining candy with a 30% chance of getting tricked and losing a lot of candy.")
     async def treat(self, ctx):
         if await can_the_command_run(ctx, cog_name) == True:
             if await database.member.checks.has_item(ctx, "!treat"):
-                random_num = random.randint(1, 3)
+                random_num = np.random.randint(low=1, high=3)
 
                 #Send knock, knock messages.
                 await ctx.send("*Knock, Knock*")
@@ -95,7 +99,7 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
                     await candy.member.subtract(ctx, self.client, amount)
 
                     embed = nextcord.Embed(title="🎃You've been 😈TR$CK%D!", 
-                    description=msg.treat.embed.steal_context.format(ctx.author.mention, msg.candy_emoji, amount), 
+                    description=msg.treat.embed.steal_context.format(ctx.author.mention, msg.candy_emoji, f"-{amount}"), 
                     colour=settings.RED)
 
                     embed.set_footer(text=msg.embed.footer_1)
@@ -106,7 +110,6 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
                     amount = random.randint(6, 11)
                     await candy.member.add(ctx, self.client, amount)
                     
-                    description_message = ((msg.treat.embed.won_context).format(ctx.author.mention, msg.candy_emoji, amount))
                     embed = nextcord.Embed(title="🎃You've been 🤩TREATED!", 
                     description=(msg.treat.embed.won_context).format(ctx.author.mention, msg.candy_emoji, amount), 
                     colour=settings.AKI_ORANGE)
@@ -132,7 +135,7 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
                 url = await gif.random(ctx, self.client, "creepy", (5, 30))
                 embed = nextcord.Embed(title="🕯️ Creeeepy...", colour=settings.GREY)
                 embed.set_image(url=url)
-                embed.set_footer(text=msg.embed.footer_1)
+                embed.set_footer(text=goldy_msg.footer.giphy)
                 await ctx.send(embed=embed)
 
             else:
@@ -145,10 +148,12 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
         else:
             await goldy.log_error(ctx, self.client, error, f"{cog_name}.spooky")
 
+    '''
     @commands.command(aliases=["scary"], description="Desolves 1 candy and gives you a horro story.")
     async def story(self, ctx):
         if await can_the_command_run(ctx, cog_name) == True:
             pass
+    '''
 
     @commands.command(aliases=["skele", "skull", "skeletons"], description="💀Sends skeletons.")
     async def skeleton(self, ctx):
@@ -207,7 +212,7 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
         else:
             await goldy.log_error(ctx, self.client, error, f"{cog_name}.bat")
 
-    @commands.command(aliases=["batable"])
+    @commands.command(aliases=["batable"], description="Allows you to toggle bat blocking on or off.")
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def battable(self, ctx, option=None):
         if await can_the_command_run(ctx, cog_name) == True:

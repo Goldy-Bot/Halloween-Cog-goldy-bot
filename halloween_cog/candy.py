@@ -81,12 +81,13 @@ class candy(commands.Cog, name="🍬Candy"):
 
         @staticmethod
         async def subtract(ctx, client, amount): #Subtracts currency from member.
-            database = client.get_cog('database')
+            from cogs.database import database
             member_data = await database.member.pull(ctx) #Pull member data.
 
             try:
                 member_candy = member_data.candy
             except AttributeError:
+                await database.member.add_object(ctx, "candy", 0)
                 member_candy = 0
 
             new_candy_bal = member_candy - amount
@@ -95,7 +96,7 @@ class candy(commands.Cog, name="🍬Candy"):
                 return False
 
             if not new_candy_bal < -1:
-                member_data.goldCoins = new_candy_bal
+                member_data.candy = new_candy_bal
                 await database.member.push(ctx, member_data) #Push member data back.
                 print_and_log(None, f"[{cog_name.upper()}] Removed {amount} candy from {ctx.author}'s bank.")
 
