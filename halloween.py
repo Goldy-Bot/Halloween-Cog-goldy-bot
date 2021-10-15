@@ -167,6 +167,7 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
         else:
             await goldy.log_error(ctx, self.client, error, f"{cog_name}.skeleton")
 
+    @commands.cooldown(1, 180, commands.BucketType.user)
     @commands.command(aliases=["bats"], description="Sends a bat to a member's dm.")
     async def bat(self, ctx, member:nextcord.Member=None):
         if await can_the_command_run(ctx, cog_name) == True:
@@ -185,9 +186,12 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
 
                         #Send embeds
                         dm_embed = await bats.embed.create(member_ctx.author)
-
                         dm_embed.set_image(url=random_image.url)
                         await member_ctx.author.send(embed=dm_embed)
+
+                        #Bat sent message
+                        embed = await bats.embed.sent.create(ctx)
+                        await ctx.send(embed=embed)
 
                     else:
                         await ctx.send(msg.bat.failed.not_battable.format(ctx.author.mention))
