@@ -11,6 +11,7 @@ import numpy as np
 from src.goldy_func import *
 from src.goldy_utility import *
 from utility import msg as goldy_msg
+import src.goldy_cache as goldy_cache
 
 from cogs.database import database
 
@@ -23,10 +24,10 @@ import cogs.halloween_cog.bats as bats
 from cogs.giphy import giphy
 from cogs.giphy_cog.api import gif
 
-#Change 'your_cog' to the name you wish to call your cog. ('your_cog' is just a placeholder.)
 cog_name = "halloween"
+version = 1.00
 
-class halloween(commands.Cog, name="🎃Halloween Extn"):
+class halloween(commands.Cog, name="🎃Halloween Extn", ver=version):
     def __init__(self, client):
         self.client = client
         self.cog_name = cog_name
@@ -39,6 +40,39 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
         #Loading halloween's extentions.
         goldy.cogs.load(self.client, "cogs.halloween_cog.candy")
         goldy.cogs.load(self.client, "cogs.halloween_cog.shop")
+
+        #Adding additional give/take options.
+        goldy_cache.give_cmd_additional_options += '''
+from cogs.halloween_cog.candy import candy
+loop = asyncio.get_event_loop()
+
+if option.lower() == "candy":
+    try:
+        arg1 = int(arg1) #This is here to stop IDIOTS from breaking someone's member data.
+        new_bal = loop.create_task(candy.member.add(target_member_ctx, self.client, arg1))
+        loop.create_task(ctx.send((msg.admin.give.main_layout).format(admin.mention, target_member.mention, f"🍬``{arg1}``")))
+
+    except ValueError as e:
+        loop.create_task(help(admin))
+        
+    done = True
+        '''
+
+        goldy_cache.take_cmd_additional_options += '''
+from cogs.halloween_cog.candy import candy
+loop = asyncio.get_event_loop()
+
+if option.lower() == "candy":
+    try:
+        arg1 = int(arg1) #This is here to stop IDIOTS from breaking someone's member data.
+        new_bal = loop.create_task(candy.member.subtract(target_member_ctx, self.client, arg1))
+        loop.create_task(ctx.send((msg.admin.take.main_layout).format(admin.mention, f"🍬``{arg1}``", target_member.mention)))
+
+    except ValueError as e:
+        loop.create_task(help(admin))
+        
+    done = True
+        '''
 
         #Reimporting some of the modules.
         importlib.reload(msg)
@@ -200,7 +234,7 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
                         await member_ctx.author.send(embed=dm_embed)
 
                         #Bat sent message
-                        embed = await bats.embed.sent.create(ctx, candy_taken)
+                        embed = await bats.embed.sent.create(ctx, 10)
                         await ctx.send(embed=embed)
 
                         return True

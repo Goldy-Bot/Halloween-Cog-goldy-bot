@@ -156,7 +156,7 @@ class shop(commands.Cog, name="🛒Shop"):
     async def sell(self, ctx, *, item=None):
         if await can_the_command_run(ctx, cog_name) == True:
             if not item == None:
-                items_data = await self.items.find_one(ctx, item)
+                items_data = await core_shop.items.find_one(ctx, item)
 
                 if not items_data == False:
                     #Sell item
@@ -217,7 +217,7 @@ class shop(commands.Cog, name="🛒Shop"):
 
             #If the item is a role add the role, update member's prefix and check if it merges with any other roles.
             if await core_shop.items.checks.item_type(item_data) == "role":
-                is_it_merging = await shop.items.role.is_merging(ctx, item_data)
+                is_it_merging = await core_shop.items.role.is_merging(ctx, item_data)
                 if is_it_merging[0] == True:
                     role_that_is_causing_it = is_it_merging[1]
                     
