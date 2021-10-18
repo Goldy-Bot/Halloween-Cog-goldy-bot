@@ -10,7 +10,6 @@ import settings
 import cogs.giphy_cog.api as giphy_api
 
 from cogs.database import database
-
 import cogs.halloween_cog.msg as msg
 
 class member():

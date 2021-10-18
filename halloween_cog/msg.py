@@ -1,5 +1,8 @@
 candy_emoji = "🍬"
 
+class error():
+    no_candy = "**❤️ {}, you don't have enough 🍬candy.**"
+
 class embed():
     prize_context = """
     **__🎉{}__**

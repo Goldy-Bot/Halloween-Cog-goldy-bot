@@ -23,8 +23,6 @@ import cogs.halloween_cog.bats as bats
 from cogs.giphy import giphy
 from cogs.giphy_cog.api import gif
 
-
-
 #Change 'your_cog' to the name you wish to call your cog. ('your_cog' is just a placeholder.)
 cog_name = "halloween"
 
@@ -186,17 +184,23 @@ class halloween(commands.Cog, name="🎃Halloween Extn"):
                     #Check if member mentioned is battable first.
                     member_data = await database.member.pull(member_ctx)
                     if await bats.member.checks.is_battable(ctx, member_data):
-                        #Get random image.
-                        random_image = await bats.random_bat_image.get()
+                        #Payment
+                        if await candy.member.subtract(ctx, self.client, 10):
+                            #Get random image.
+                            random_image = await bats.random_bat_image.get()
 
-                        #Send embeds
-                        dm_embed = await bats.embed.create(member_ctx.author)
-                        dm_embed.set_image(url=random_image.url)
-                        await member_ctx.author.send(embed=dm_embed)
+                            #Send embeds
+                            dm_embed = await bats.embed.create(member_ctx.author)
+                            dm_embed.set_image(url=random_image.url)
+                            await member_ctx.author.send(embed=dm_embed)
 
-                        #Bat sent message
-                        embed = await bats.embed.sent.create(ctx)
-                        await ctx.send(embed=embed)
+                            #Bat sent message
+                            embed = await bats.embed.sent.create(ctx)
+                            await ctx.send(embed=embed)
+                        
+                        else:
+                            await ctx.send(msg.error.no_candy.format(ctx.author.mention))
+                            ctx.command.reset_cooldown(ctx)
 
                     else:
                         await ctx.send(msg.bat.failed.not_battable.format(ctx.author.mention))
