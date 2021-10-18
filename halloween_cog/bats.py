@@ -102,8 +102,8 @@ class embed():
 
     class sent():
         @staticmethod
-        async def create(ctx):
-            embed = nextcord.Embed(title="**💚🦇 Bat Sent!**", description=(msg.bat.sent).format(ctx.author.mention), colour=settings.GREEN)
+        async def create(ctx, candy_taken):
+            embed = nextcord.Embed(title="**💚🦇 Bat Sent!**", description=(msg.bat.sent).format(ctx.author.mention, candy_taken), colour=settings.GREEN)
             return embed
 
     

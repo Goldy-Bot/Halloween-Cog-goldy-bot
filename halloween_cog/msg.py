@@ -54,7 +54,11 @@ class bat():
     class failed():
         not_battable = battable.their_not_battable
 
-    sent = "**💚 {}, 🦇bat has been dispatched and will be arriving soon.**"
+    sent = """
+    **💚 {}, 🦇bat has been dispatched and will be arriving soon.**
+
+    **🍬Candy Taken: ``{}``**
+    """
 
 class bal():
     class embed():
