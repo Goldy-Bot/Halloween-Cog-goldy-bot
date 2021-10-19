@@ -27,7 +27,7 @@ from cogs.giphy_cog.api import gif
 cog_name = "halloween"
 version = 1.00
 
-class halloween(commands.Cog, name="🎃Halloween Extn", ver=version):
+class halloween(commands.Cog, name="🎃Halloween Extn"):
     def __init__(self, client):
         self.client = client
         self.cog_name = cog_name
