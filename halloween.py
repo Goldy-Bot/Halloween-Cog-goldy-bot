@@ -284,10 +284,12 @@ if option.lower() == "candy":
         else:
             await goldy.log_error(ctx, self.client, error, f"{cog_name}.battable")
 
+    """
     @commands.command()
     async def cram(self, ctx):
         if await can_the_command_run(ctx, cog_name) == True:
             pass
+    """
 
     class embed():
         @staticmethod
