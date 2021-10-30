@@ -10,7 +10,7 @@ import numpy as np
 
 from src.goldy_func import *
 from src.goldy_utility import *
-from utility import msg as goldy_msg
+from src.utility import msg as goldy_msg
 import src.goldy_cache as goldy_cache
 
 from cogs.database import database
@@ -78,7 +78,7 @@ if option.lower() == "candy":
         importlib.reload(msg)
         importlib.reload(config)
 
-    @commands.cooldown(1, 30, commands.BucketType.user)
+    @commands.cooldown(1, 15, commands.BucketType.user)
     @commands.command(description="Has a 42% chance of being a jumpscare and a 57% chance of giving you some candy.")
     async def boo(self, ctx):
         if await can_the_command_run(ctx, cog_name) == True:
@@ -92,7 +92,7 @@ if option.lower() == "candy":
                 await ctx.send(embed=embed)
             
             else: #Give some candy to the member.
-                amount = random.randint(2, 8)
+                amount = random.randint(3, 8)
                 await candy.member.add(ctx, self.client, amount)
                 
                 description_message = ((msg.embed.prize_context).format(ctx.author.mention, msg.candy_emoji, amount))
